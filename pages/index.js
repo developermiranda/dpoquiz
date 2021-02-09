@@ -1,10 +1,11 @@
-import styled from "styled-components";
-
 import { useRouter } from "next/router";
-
+import Button from "../src/components/Button";
+import Input from "../src/components/Input";
 //importando o componente Head
 import Head from "next/head";
 //importando o componente
+import QuizContainer from "../src/components/QuizContainer";
+
 import QuizLogo from "../src/components/QuizLogo";
 import QuizBackground from "../src/components/QuizBackground";
 import Footer from "../src/components/Footer";
@@ -12,37 +13,19 @@ import GitHubCorner from "../src/components/GitHubCorner";
 import Widget from "../src/components/Widget";
 import db from "../db.json";
 
-/** const BackgroundImage = styled.div`
-  background-image: url(${db.bg});
-  flex: 1;
-  background-size: cover;
-  background-position: center;
-`; **/
-
-export const QuizContainer = styled.div`
-  width: 100%;
-  max-width: 350px;
-  padding-top: 45px;
-  margin: auto 10%;
-  @media screen and (max-width: 500px) {
-    margin: auto;
-    padding: 15px;
-  }
-`;
-
 export default function Home() {
   const router = useRouter(); //hooks de roteamento
   const [name, setName] = React.useState(""); //hooks trabalharemos
   return (
     <QuizBackground backgroundImage={db.bg}>
       <Head>
-        <title>Data Protection Officer Quiz</title>
+        <title>Quiz Data Protection Officer</title>
       </Head>
       <QuizContainer>
         <QuizLogo />
         <Widget>
           <Widget.Header>
-            <h1>Data Protection Officer</h1>
+            <h1>Quiz Data Protection Officer</h1>
           </Widget.Header>
           <Widget.Content>
             <form
@@ -53,19 +36,17 @@ export default function Home() {
                 console.log("Fazendo uma submissão por meio do react");
               }}
             >
-              <input
-                onChange={function (infosDoEvento) {
-                  console.log(infosDoEvento.target.value);
-                  // State
-                  // name = infosDoEvento.target.value;
-                  setName(infosDoEvento.target.value);
-                }}
-                placeholder="Diz ai seu nome"
+              <Input
+                name="nomeDoUsuario"
+                onChange={(infosDoEvento) =>
+                  setName(infosDoEvento.target.value)
+                }
+                placeholder="DPO, entre com o seu nome"
+                value={name}
               />
-              <button type="submit" disabled={name.length === 0}>
-                Jogar
-                {/* {name} COMENTEI PARA USAR OUTRA ESTRATÉGIA*/}
-              </button>
+              <Button type="submit" disabled={name.length === 0}>
+                {`Jogar ${name}`}
+              </Button>
             </form>
           </Widget.Content>
         </Widget>
