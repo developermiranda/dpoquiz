@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+import { useRouter } from "next/router";
+
+//importando o componente Head
+import Head from "next/head";
 //importando o componente
 import QuizLogo from "../src/components/QuizLogo";
 import QuizBackground from "../src/components/QuizBackground";
@@ -27,8 +31,13 @@ export const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter(); //hooks de roteamento
+  const [name, setName] = React.useState(""); //hooks trabalharemos
   return (
     <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>Data Protection Officer Quiz</title>
+      </Head>
       <QuizContainer>
         <QuizLogo />
         <Widget>
@@ -36,7 +45,28 @@ export default function Home() {
             <h1>Data Protection Officer</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>lorem ipsum dolor sit amet</p>
+            <form
+              onSubmit={function (infosDoEvento) {
+                infosDoEvento.preventDefault();
+                // const name = "Daniel";
+                router.push(`/quiz?name=${name}`);
+                console.log("Fazendo uma submissão por meio do react");
+              }}
+            >
+              <input
+                onChange={function (infosDoEvento) {
+                  console.log(infosDoEvento.target.value);
+                  // State
+                  // name = infosDoEvento.target.value;
+                  setName(infosDoEvento.target.value);
+                }}
+                placeholder="Diz ai seu nome"
+              />
+              <button type="submit" disabled={name.length === 0}>
+                Jogar
+                {/* {name} COMENTEI PARA USAR OUTRA ESTRATÉGIA*/}
+              </button>
+            </form>
           </Widget.Content>
         </Widget>
         <Widget>
